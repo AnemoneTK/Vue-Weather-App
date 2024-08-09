@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-
+import Icon from "./Icon.vue";
 //props
 const props = defineProps({
   apiKey: {
@@ -31,7 +31,7 @@ const getWeather = async () => {
     />
     <button
       @click="getWeather"
-      class="bg-blue-500 text-white p-2 rounded mt-2 w-full"
+      class="bg-white border border-primary text-primary p-2 rounded mt-2 w-full"
     >
       Get Weather
     </button>
@@ -40,6 +40,8 @@ const getWeather = async () => {
       <p class="text-lg">{{ weather.weather[0].description }}</p>
       <p class="text-lg">Temp: {{ weather.main.temp }} °C</p>
       <p class="text-lg">Humidity: {{ weather.main.humidity }}%</p>
+      <p class="text-lg">{{ weather.weather[0].main }}</p>
+      <Icon :Icon="weather.weather[0].main" />
     </div>
   </div>
 </template>
