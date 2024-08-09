@@ -1,16 +1,21 @@
 <script setup>
 import { ref } from "vue";
+import humidity from "../assets/weatherIcon/icon_humidity.png";
+import windSpeed from "../assets/weatherIcon/icon_windSpeed.png";
 import Icon from "./Icon.vue";
 //props
 const props = defineProps({
   apiKey: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 
 const city = ref("");
 const weather = ref(null);
+const hour = ref(null);
+const date = ref("");
+const time = ref("");
 
 const getWeather = async () => {
   const response = await fetch(
@@ -18,7 +23,19 @@ const getWeather = async () => {
   );
   const data = await response.json();
   weather.value = data;
-  console.log(weather.value);
+
+  //เก็บค่า ละติจูด ลองจิจูด เพื่อนำไปหาตำแหน่งที่ตั้ง แะล Timezone
+  const lat = data.coord.lat;
+  const lon = data.coord.lon;
+
+  //นำ ละติจูด ลองจิจูด ไปใช้ในการหาเวลา
+  const timeResponse = await fetch(
+    `http://localhost:3000/api/time?lat=${lat}&lon=${lon}`
+  );
+  const timeData = await timeResponse.json();
+  hour.value = timeData.hour;
+  date.value = timeData.date;
+  time.value = timeData.time;
 };
 </script>
 <template>
@@ -40,8 +57,11 @@ const getWeather = async () => {
       <p class="text-lg">{{ weather.weather[0].description }}</p>
       <p class="text-lg">Temp: {{ weather.main.temp }} °C</p>
       <p class="text-lg">Humidity: {{ weather.main.humidity }}%</p>
+      <p class="text-lg">Date: {{ date }}</p>
+      <p class="text-lg">Time: {{ time }}</p>
+      <p class="text-lg">Hour: {{ hour }}</p>
       <p class="text-lg">{{ weather.weather[0].main }}</p>
-      <Icon :Icon="weather.weather[0].main" />
+      <Icon :Icon="weather.weather[0].icon" :hour="hour" />
     </div>
   </div>
 </template>
