@@ -67,14 +67,19 @@ const iconSrc = computed(() => {
       return mist;
     case "50n":
       return mist;
-
     default:
       return dRain;
   }
 });
 </script>
 <template>
-  <div>
-    <img class="h-16 w-16" :src="iconSrc" alt="Weather Icon" />
+  <div class="flex justify-center">
+    <img :src="iconSrc" alt="Weather Icon" />
   </div>
 </template>
+<style scoped>
+img {
+  height: auto;
+  max-height: 35dvh;
+}
+</style>

@@ -1,67 +1,112 @@
 <script setup>
-import { ref } from "vue";
-import humidity from "../assets/weatherIcon/icon_humidity.png";
-import windSpeed from "../assets/weatherIcon/icon_windSpeed.png";
+import { ref, watch, onMounted } from "vue";
 import Icon from "./Icon.vue";
-//props
+import HumidityIcon from "../assets/weatherIcon/icon_humidity.png";
+import WindSpeedIcon from "../assets/weatherIcon/icon_windSpeed.png";
+
+// Props
 const props = defineProps({
   apiKey: {
     type: String,
+    required: true,
+    default: "",
+  },
+  country: {
+    type: String,
     required: false,
+    default: "",
   },
 });
 
-const city = ref("");
 const weather = ref(null);
+const icon = ref("");
 const hour = ref(null);
 const date = ref("");
 const time = ref("");
 
+// Fetch weather data and time data
 const getWeather = async () => {
-  const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&units=metric&appid=${props.apiKey}`
-  );
-  const data = await response.json();
-  weather.value = data;
+  if (props.country) {
+    try {
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${props.country}&units=metric&appid=${props.apiKey}&lang=th`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch weather data");
+      }
+      const data = await response.json();
+      weather.value = data;
 
-  //เก็บค่า ละติจูด ลองจิจูด เพื่อนำไปหาตำแหน่งที่ตั้ง แะล Timezone
-  const lat = data.coord.lat;
-  const lon = data.coord.lon;
+      icon.value = data.weather[0].icon;
 
-  //นำ ละติจูด ลองจิจูด ไปใช้ในการหาเวลา
-  const timeResponse = await fetch(
-    `http://localhost:3000/api/time?lat=${lat}&lon=${lon}`
-  );
-  const timeData = await timeResponse.json();
-  hour.value = timeData.hour;
-  date.value = timeData.date;
-  time.value = timeData.time;
+      const lat = data.coord.lat;
+      const lon = data.coord.lon;
+
+      const timeResponse = await fetch(
+        `http://localhost:3000/api/time?lat=${lat}&lon=${lon}`
+      );
+      if (!timeResponse.ok) {
+        throw new Error("Failed to fetch time data");
+      }
+      const timeData = await timeResponse.json();
+      hour.value = timeData.hour;
+      date.value = timeData.date;
+      time.value = timeData.time;
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 };
+
+watch(
+  () => props.country,
+  () => {
+    getWeather();
+  }
+);
+
+onMounted(() => {
+  getWeather();
+});
 </script>
+
 <template>
-  <div class="max-w-md mx-auto mt-10 p-4 bg-white shadow-md rounded-lg">
-    <input
-      type="text"
-      v-model="city"
-      placeholder="Enter city"
-      class="border p-2 rounded w-full"
-    />
-    <button
-      @click="getWeather"
-      class="bg-white border border-primary text-primary p-2 rounded mt-2 w-full"
-    >
-      Get Weather
-    </button>
+  <div class="sm:px-5 md:px-10 lg:px-16 pt-0 mt-5 h-5/6 text-primary">
     <div v-if="weather">
-      <h2 class="text-2xl font-bold mt-4">{{ weather.name }}</h2>
-      <p class="text-lg">{{ weather.weather[0].description }}</p>
-      <p class="text-lg">Temp: {{ weather.main.temp }} °C</p>
-      <p class="text-lg">Humidity: {{ weather.main.humidity }}%</p>
-      <p class="text-lg">Date: {{ date }}</p>
-      <p class="text-lg">Time: {{ time }}</p>
-      <p class="text-lg">Hour: {{ hour }}</p>
-      <p class="text-lg">{{ weather.weather[0].main }}</p>
-      <Icon :Icon="weather.weather[0].icon" :hour="hour" />
+      <Icon :Icon="icon" :hour="hour" />
+      <p class="text-lg text-center">{{ weather.weather[0].description }}</p>
+      <p class="text-6xl my-4 text-center font-bold">
+        {{ weather.main.temp }} °C
+      </p>
+      <div class="flex flex-row align-middle justify-center gap-20">
+        <div class="text-center">
+          <p class="text-lg">Date</p>
+          <p class="text-lg">{{ date }}</p>
+        </div>
+        <div class="text-center">
+          <p class="text-lg">Time</p>
+          <p class="text-lg">{{ time }}</p>
+        </div>
+      </div>
+      <div class="flex flex-row align-middle justify-between mt-6">
+        <div class="flex flex-row align-middle justify-start gap-3">
+          <img class="h-20" :src="HumidityIcon" alt="" />
+          <div class="flex flex-col align-middle justify-center">
+            <p class="text-lg">Humidity</p>
+            <p class="text-4xl font-semibold">{{ weather.main.humidity }} %</p>
+          </div>
+        </div>
+        <div class="flex flex-row align-middle justify-start gap-3">
+          <img class="h-20" :src="WindSpeedIcon" alt="" />
+          <div class="flex flex-col align-middle justify-center">
+            <p class="text-lg">Wind Speed</p>
+            <p class="text-4xl font-semibold">{{ weather.wind.speed }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="flex align-middle justify-center">
+      <h1>ไม่พบ</h1>
     </div>
   </div>
 </template>
