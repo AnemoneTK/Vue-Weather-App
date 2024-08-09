@@ -18,6 +18,7 @@ const getWeather = async () => {
   );
   const data = await response.json();
   weather.value = data;
+  console.log(weather.value);
 };
 </script>
 <template>
