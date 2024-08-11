@@ -1,5 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref, watch } from "vue";
+import ENG from "../assets/img/united-kingdom.png";
+import THI from "../assets/img/thailand.png";
 
 const isOpen = ref(false);
 const settingBox = ref(null);
@@ -58,7 +60,7 @@ watch(localUnits, (newValue) => {
     </div>
     <div
       :class="[
-        'settingBox border-2 p-2 mt-2 rounded w-50 max-h-80 overflow-y-auto bg-white',
+        'settingBox border-2 p-2 mt-2 rounded w-50 max-h-80 overflow-y-auto bg-white flex flex-col gap-1',
         isOpen ? 'open' : '',
       ]"
     >
@@ -68,12 +70,22 @@ watch(localUnits, (newValue) => {
           <p class="text-md">Language</p>
         </div>
         <select name="language" v-model="localLanguage">
-          <option value="en" :selected="props.language === 'en'">EN</option>
-          <option value="th" :selected="props.language === 'th'">TH</option>
+          <option value="en" :selected="props.language === 'en'">
+            <img :src="ENG" alt="" />
+            English
+          </option>
+          <option value="th" :selected="props.language === 'th'">
+            <img :src="THI" alt="" />
+            ภาษาไทย
+          </option>
         </select>
       </div>
+      <hr />
       <div>
-        <p>Units</p>
+        <div class="flex flex-row item-center justify-start gap-2">
+          <div><i class="fa-solid fa-temperature-low h-100"></i></div>
+          <p class="text-md">Units</p>
+        </div>
         <select name="units" v-model="localUnits">
           <option value="metric" :selected="props.units === 'metric'">
             °C

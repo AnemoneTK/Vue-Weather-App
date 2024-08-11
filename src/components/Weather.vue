@@ -110,11 +110,13 @@ onMounted(() => {
             {{ weather.weather[0].description }}
           </p>
           <p class="tempText my-2 md:my-4 text-center font-bold">
-            {{ weather.main.temp }} °C
+            {{ weather.main.temp }} {{ props.units == "metric" ? "°C" : "°F " }}
           </p>
           <div class="flex flex-row align-middle justify-center gap-20">
             <div class="text-center">
-              <p class="text-lg">Date</p>
+              <p class="text-lg">
+                {{ props.language == "en" ? "Date" : "วันที่" }}
+              </p>
               <div v-if="date">
                 <p class="text-lg">{{ date }}</p>
               </div>
@@ -129,7 +131,9 @@ onMounted(() => {
               </div>
             </div>
             <div class="text-center">
-              <p class="text-lg">Time</p>
+              <p class="text-lg">
+                {{ props.language == "en" ? "Time" : "เวลา" }}
+              </p>
               <div v-if="time">
                 <p class="text-lg">{{ time }}</p>
               </div>
@@ -152,7 +156,9 @@ onMounted(() => {
             >
               <img class="h-24 md:h-20 lg:h-24" :src="HumidityIcon" alt="" />
               <div class="flex flex-col align-middle justify-center">
-                <p class="text-lg">Humidity</p>
+                <p class="text-lg">
+                  {{ props.language == "en" ? "Humidity" : "ความชื้น" }}
+                </p>
                 <p class="detailText font-semibold">
                   {{ weather.main.humidity }} %
                 </p>
@@ -163,7 +169,9 @@ onMounted(() => {
             >
               <img class="h-24 md:h-20 lg:h-24" :src="WindSpeedIcon" alt="" />
               <div class="flex flex-col align-middle justify-center">
-                <p class="text-lg">Wind Speed</p>
+                <p class="text-lg">
+                  {{ props.language == "en" ? "Wind Speed" : "ความเร็มลม" }}
+                </p>
                 <p class="detailText font-semibold">{{ weather.wind.speed }}</p>
               </div>
             </div>
@@ -176,7 +184,7 @@ onMounted(() => {
     </div>
     <div v-else class="flex flex-col items-center justify-center h-full">
       <img class="h-56" :src="SearchIcon" alt="" />
-      <p>ค้นหาประเทศ</p>
+      <p>{{ props.language == "en" ? "search country" : "ค้าหาประเทศ" }}</p>
     </div>
   </div>
 </template>
