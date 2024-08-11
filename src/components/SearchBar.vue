@@ -48,9 +48,9 @@ const focusInput = () => {
 </script>
 
 <template>
-  <div class="px-10 flex align-middle justify-between">
+  <div class="px-5 flex align-middle justify-between">
     <div
-      class="searchBox w-10/12 h-14 px-4 py-0 m-0 rounded-full border-2 flex items-center gap-2 relative cursor-pointer"
+      class="searchBox h-14 px-4 py-0 m-0 rounded-full border-2 flex items-center gap-2 relative cursor-pointer"
       @click="focusInput"
     >
       <div class="flex items-center justify-center">
@@ -83,22 +83,13 @@ const focusInput = () => {
         </li>
       </ul>
     </div>
-    <div
-      class="settingBtn h-14 flex items-center justify-center rounded-full bg-primary"
-    >
-      <button>
-        <i class="fa-solid fa-gear text-2xl text-white"></i>
-      </button>
-    </div>
   </div>
 </template>
 <style scoped>
 .searchBox {
   z-index: 3;
 }
-.settingBtn {
-  aspect-ratio: 1/1;
-}
+
 ul {
   top: 0;
   opacity: 0;

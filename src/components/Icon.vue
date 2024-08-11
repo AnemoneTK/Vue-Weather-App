@@ -80,6 +80,6 @@ const iconSrc = computed(() => {
 <style scoped>
 img {
   height: auto;
-  max-height: 35dvh;
+  max-height: 30dvh;
 }
 </style>

@@ -71,7 +71,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="sm:px-5 md:px-10 lg:px-16 pt-0 mt-5 h-5/6 text-primary">
+  <div class="sm:px-5 md:px-5 lg:px-5 pt-0 mt-5 text-primary">
     <div v-if="weather">
       <Icon :Icon="icon" :hour="hour" />
       <p class="text-lg text-center">{{ weather.weather[0].description }}</p>
