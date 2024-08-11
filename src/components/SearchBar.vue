@@ -37,7 +37,7 @@ const setSelected = (item) => {
 
 const handelInput = (e) => {
   search.value = e.target.value;
-  isOpen.value = !!search.value; //ถ้ามีการพิพม์ข้อความให้ isOpen = true
+  isOpen.value = !!search.value; //ถ้ามีการพิมพ์ข้อความให้ isOpen = true
 };
 
 const inputBox = ref(null);
@@ -48,9 +48,9 @@ const focusInput = () => {
 </script>
 
 <template>
-  <div class="px-5 flex align-middle justify-between">
+  <div class="flex align-middle justify-between bg-white">
     <div
-      class="searchBox h-14 px-4 py-0 m-0 rounded-full border-2 flex items-center gap-2 relative cursor-pointer"
+      class="searchBox bg-white px-4 py-0 m-0 rounded-full border-2 flex items-center gap-2 relative cursor-pointer"
       @click="focusInput"
     >
       <div class="flex items-center justify-center">
@@ -77,9 +77,12 @@ const focusInput = () => {
           @click="setSelected(result.enName)"
           v-for="result in searchResult"
           :key="result.numeric"
-          class="border-b-2 p-2 w-full cursor-pointer hover:bg-primary hover:bg-opacity-50"
+          class="border-b-2 p-2 w-full cursor-pointer hover:bg-primary hover:bg-opacity-10"
         >
           {{ result.name }} ({{ result.enName }})
+        </li>
+        <li v-if="searchResult.length === 0" class="text-red-500 p-2 w-full">
+          ไม่พบข้อมูล
         </li>
       </ul>
     </div>
@@ -89,16 +92,18 @@ const focusInput = () => {
 .searchBox {
   z-index: 3;
 }
-
+.inputBox {
+  background-color: transparent;
+}
 ul {
-  top: 0;
+  top: 3rem;
   opacity: 0;
   transition: all 0.5s;
   position: absolute;
-  z-index: -1;
+  z-index: -2;
 }
 ul.open {
-  top: 3rem;
+  top: 3.5rem;
   opacity: 1;
   z-index: 1;
 }

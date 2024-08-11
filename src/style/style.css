@@ -5,4 +5,8 @@
   padding: 0;
   box-sizing: border-box;
   user-select: none;
+
+  --background: #F6F4F5,
+  --primary: #14121F,
+  --white: #FFFF,
 }

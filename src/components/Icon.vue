@@ -11,7 +11,6 @@ import dFewClouds from "../assets/weatherIcon/icon_D-fewClouds.png";
 import fewClouds from "../assets/weatherIcon/icon_fewClouds.png";
 
 import brokenClouds from "../assets/weatherIcon/icon_brokenClouds.png";
-
 import mist from "../assets/weatherIcon/icon_mist.png";
 import scatteredClouds from "../assets/weatherIcon/icon_scatteredClouds.png";
 import showerRain from "../assets/weatherIcon/icon_showerRain.png";
@@ -39,34 +38,23 @@ const iconSrc = computed(() => {
       return dFewClouds;
     case "02n":
       return fewClouds;
-    case "03d":
+    case "03d" && "03n":
       return scatteredClouds;
-    case "03n":
-      return scatteredClouds;
-    case "04d":
+    case "04d" && "04n":
       return brokenClouds;
-    case "04n":
-      return brokenClouds;
-    case "09d":
-      return showerRain;
-    case "09n":
+    case "09d" && "09n":
       return showerRain;
     case "10d":
       return dRain;
     case "10n":
       return rain;
-    case "11d":
+    case "11d" && "11n":
       return thunderstorm;
-    case "11n":
-      return thunderstorm;
-    case "13d":
+    case "13d" && "13n":
       return snow;
-    case "13n":
-      return snow;
-    case "50d":
+    case "50d" && "50n":
       return mist;
-    case "50n":
-      return mist;
+
     default:
       return dRain;
   }
