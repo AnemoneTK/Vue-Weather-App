@@ -85,7 +85,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="weatherBox sm:px-5 md:px-5 lg:px-5 pt-0 mt-5 overflow-y-auto overflow-auto md:overflow-hidden text-primary"
+    class="weatherBox h-80dvh md:h-65dvh sm:px-5 md:px-5 lg:px-5 pt-0 mt-5 overflow-y-auto overflow-auto md:overflow-hidden text-primary"
   >
     <div v-if="props.country">
       <div
@@ -196,7 +196,7 @@ onMounted(() => {
 .detailText {
   font-size: clamp(28px, 2vw, 48px);
 }
-.weatherBox {
+/* .weatherBox {
   height: 65dvh;
-}
+} */
 </style>
